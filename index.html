@@ -48,14 +48,6 @@ body{margin:0;background:var(--night);color:var(--ink);font-family:var(--f-body)
 #stag{display:flex;align-items:center;gap:8px;background:rgba(5,7,13,.78);border:1px solid #2a3247;border-left:4px solid var(--amber);border-radius:4px;padding:3px 10px 2px 8px}
 #stag .pn{font:600 13px/1 var(--f-body);letter-spacing:.1em;text-transform:uppercase;color:#d4dae6}
 #stag .pk{font:600 18px/1 var(--f-score);color:#2a1a00;background:var(--amber);border-radius:3px;padding:2px 6px 0}
-#sheet{position:fixed;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 10px);display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:2px;pointer-events:none;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));max-width:460px;margin-inline:auto}
-#sheet .fr{background:rgba(10,15,28,.85);border:1px solid #2a3247;border-radius:3px;min-width:0;display:flex;flex-direction:column}
-#sheet .fr.cur{border-color:var(--amber)}
-#sheet .mk{display:flex;justify-content:flex-end;font:600 14px/1 var(--f-score);color:#d4dae6}
-#sheet .mk span{flex:1;text-align:center;padding-top:3px;border-left:1px solid #2a3247}
-#sheet .mk span:first-child{border-left:none}
-#sheet .cu{font:600 16px/1 var(--f-score);color:var(--amber);text-align:center;padding:2px 0 1px;min-height:17px;font-variant-numeric:tabular-nums}
 .sl{display:flex;justify-content:space-between;gap:12px;padding:3px 0;border-bottom:1px solid #222b40}
 .sl b{font-weight:600}.sl i{font-style:normal;font:600 20px/1 var(--f-score);color:var(--amber)}
 #plate .pk{font:600 20px/1 var(--f-score);color:#fff;background:var(--blue);border-radius:3px;padding:2px 6px 0}
@@ -98,8 +90,6 @@ button.ghost:active{box-shadow:0 2px 0 #0a0e18}
 .mode.green:active{box-shadow:0 2px 0 #0f5a37}
 .mode.ink{background:#2b3550;box-shadow:0 4px 0 #141a2c}
 .mode.ink:active{box-shadow:0 2px 0 #141a2c}
-.mode.purple{background:#5b3a8c;box-shadow:0 4px 0 #34204f}
-.mode.purple:active{box-shadow:0 2px 0 #34204f}
 .mode.super{grid-column:1/-1;background:linear-gradient(90deg,#d7263d,#1b2a6b);box-shadow:0 4px 0 #0d1440}
 .mode.super:active{box-shadow:0 2px 0 #0d1440}
 .mode .ms{font:600 13px/1.1 var(--f-body);letter-spacing:.04em;color:rgba(255,255,255,.82)}
@@ -126,7 +116,6 @@ button.ghost:active{box-shadow:0 2px 0 #0a0e18}
   <div id="plate" hidden><span class="pk">35</span><span class="pn">Félix Gagnon · gardien</span></div>
 </div>
 
-<div id="sheet" hidden></div>
 <div id="call"></div>
 <div id="sub"></div>
 
@@ -134,19 +123,18 @@ button.ghost:active{box-shadow:0 2px 0 #0a0e18}
   <div class="card">
     <span class="eyebrow">Concours d'adresse · Match des étoiles</span>
     <h1>Tir de <span>précision</span></h1>
-    <p>Sept épreuves : cibles, chrono, barre, bouteilles, quilles, tour du monde et duel contre le gardien Félix Gagnon. Le super défi les enchaîne toutes pour un grand total.</p>
+    <p>Six épreuves : cibles, chrono, barre, bouteilles, tour du monde et duel contre le gardien Félix Gagnon. Le super défi les enchaîne toutes pour un grand total.</p>
     <ul class="rules">
       <li><b>1</b><span>Glisse le doigt de la rondelle vers le filet. La direction vise à gauche ou à droite.</span></li>
       <li><b>2</b><span>La vitesse du geste donne la hauteur : lent pour le bas, vif pour le haut.</span></li>
       <li><b>3</b><span>Contre le gardien, vise les coins hauts : au centre, il arrête presque tout.</span></li>
     </ul>
     <div class="modes">
-      <button class="mode super" type="button" data-mode="super" id="mSuper"><span>Super défi</span><span class="ms">Les 7 épreuves à la suite, grand total</span></button>
+      <button class="mode super" type="button" data-mode="super" id="mSuper"><span>Super défi</span><span class="ms">Les 6 épreuves à la suite, grand total</span></button>
       <button class="mode" type="button" data-mode="cibles" id="mCibles"><span>Cibles</span><span class="ms">4 cibles en papier</span></button>
       <button class="mode light" type="button" data-mode="chrono" id="mChrono"><span>Chrono</span><span class="ms">60 s, cibles en rafale</span></button>
       <button class="mode gold" type="button" data-mode="barre" id="mBarre"><span>Barre</span><span class="ms">10 lancers, fais ding</span></button>
       <button class="mode green" type="button" data-mode="bouteilles" id="mBouteilles"><span>Bouteilles</span><span class="ms">5 numéros, dans l'ordre</span></button>
-      <button class="mode purple" type="button" data-mode="quilles" id="mQuilles"><span>Quilles</span><span class="ms">10 carreaux sur la glace</span></button>
       <button class="mode ink" type="button" data-mode="tour" id="mTour"><span>Tour du monde</span><span class="ms">5 positions, contre le #35</span></button>
       <button class="mode alt" type="button" data-mode="duel" id="mDuel"><span>Gardien</span><span class="ms">10 tirs contre le #35</span></button>
     </div>
@@ -183,8 +171,7 @@ const MODES={
   chrono:{label:'Cibles',key:'tirprecision.best.chrono'},
   barre:{label:'Points',key:'tirprecision.best.barre'},
   bouteilles:{label:'Points',key:'tirprecision.best.bouteilles'},
-  tour:{label:'Position',key:'tirprecision.best.tour'},
-  quilles:{label:'Points',key:'tirprecision.best.quilles'}
+  tour:{label:'Position',key:'tirprecision.best.tour'}
 };
 let mode='cibles';
 const bests={};
@@ -390,155 +377,15 @@ function goTourSpot(){
   const p=TOUR[tour.idx];setShooter(p.x,p.z);drawStatic();resetGoalie();
   call(p.label.toUpperCase(),'post',`Position ${tour.idx+1} sur ${TOUR.length}`);
 }
-// ---------- Quilles sur glace ----------
-const PIN_H=0.38,PIN_R=0.06,PIN_M=0.7,PUCK_M=1;
-let pins=[],bw={frame:0,fr:[],rolls:[],pending:null},rollT=0,rollDone=0;
-function rackPins(){
-  pins=[];
-  for(let r=0;r<4;r++)for(let i=0;i<=r;i++)pins.push({x:(i-r/2)*0.26,z:2.3+r*0.25,vx:0,vz:0,r:PIN_R,fallen:false,a:0,dx:0,dz:1,counted:false,gone:0,born:0});
-}
-function bowlScore(){
-  const R=bw.rolls;let score=0,i=0;const cum=[];
-  for(let f=0;f<10;f++){
-    if(R[i]===undefined)break;
-    if(R[i]===10){if(R[i+1]===undefined||R[i+2]===undefined)break;score+=10+R[i+1]+R[i+2];cum.push(score);i+=1;}
-    else{if(R[i+1]===undefined)break;const s2=R[i]+R[i+1];
-      if(s2===10){if(R[i+2]===undefined)break;score+=10+R[i+2];}else score+=s2;cum.push(score);i+=2;}
-  }
-  return{score,cum};
-}
-function frameMarks(f){
-  const fr=bw.fr[f]||[],m=[],sym=v=>v===0?'–':String(v);
-  if(f<9){
-    if(fr[0]===10)return['','X'];
-    if(fr.length)m.push(sym(fr[0]));
-    if(fr.length>1)m.push(fr[0]+fr[1]===10?'/':sym(fr[1]));
-    return m;
-  }
-  let prev=null,prevSpareable=false;
-  fr.forEach((v,k)=>{
-    if(v===10&&(k===0||prev===10||!prevSpareable))m.push('X');
-    else if(prevSpareable&&prev+v===10)m.push('/');
-    else m.push(sym(v));
-    prevSpareable=!(v===10||(prevSpareable&&prev+v===10));prev=prevSpareable?v:null;
-    if(!prevSpareable)prev=null;
-  });
-  return m;
-}
-function renderSheet(){
-  const el=$('sheet');if(mode!=='quilles'){el.hidden=true;return;}
-  el.hidden=false;const {cum}=bowlScore();let h='';
-  for(let f=0;f<10;f++){
-    const mk=frameMarks(f),slots=f<9?2:3;let marks='';
-    for(let k=0;k<slots;k++)marks+=`<span>${mk[k]??''}</span>`;
-    h+=`<div class="fr${f===bw.frame&&!gameOver?' cur':''}"><div class="mk m${slots}">${marks}</div><div class="cu">${cum[f]??''}</div></div>`;
-  }
-  el.innerHTML=h;
-}
-function shootBowl(){
-  puck.vx=flight.vx;puck.vz=flight.vz;puck.vy=flight.slide?0:flight.vy;puck.y=PT/2;
-  pins.forEach(p=>p.counted=p.fallen);
-  state='rolling';rollT=0;rollDone=0;puck.inNet=false;puck.boards=false;
-}
-function collide(a,b,ma,mb,e){
-  const dx=b.x-a.x,dz=b.z-a.z,d=Math.hypot(dx,dz),rr=a.r+b.r;if(d>=rr||d===0)return false;
-  const nx=dx/d,nz=dz/d,ov=rr-d,tm=ma+mb;
-  a.x-=nx*ov*mb/tm;a.z-=nz*ov*mb/tm;b.x+=nx*ov*ma/tm;b.z+=nz*ov*ma/tm;
-  const rel=(a.vx-b.vx)*nx+(a.vz-b.vz)*nz;if(rel<=0)return true;
-  const j=(1+e)*rel/(1/ma+1/mb);a.vx-=j/ma*nx;a.vz-=j/ma*nz;b.vx+=j/mb*nx;b.vz+=j/mb*nz;return true;
-}
-function knock(p){if(!p.fallen){p.fallen=true;const v=Math.hypot(p.vx,p.vz)||1;p.dx=p.vx/v;p.dz=p.vz/v;sfx('pin');}}
-function updateBowl(dt){
-  for(const p of pins){p.born+=dt;if(p.fallen&&p.a<Math.PI/2)p.a=Math.min(Math.PI/2,p.a+dt*7);if(p.gone)p.gone+=dt;}
-  if(state!=='rolling'){pins=pins.filter(p=>!(p.gone>0.35));return;}
-  rollT+=dt;const n=Math.ceil(dt/0.002),h=dt/n;
-  const pk={x:puck.x,z:puck.z,vx:puck.vx,vz:puck.vz,r:PR};
-  for(let s=0;s<n;s++){
-    if(!rollDone||Math.hypot(pk.vx,pk.vz)>0.05){
-      puck.vy-=G*h;puck.y+=puck.vy*h;if(puck.y<PT/2){puck.y=PT/2;puck.vy=Math.abs(puck.vy)>0.6?-puck.vy*0.3:0;}
-      pk.x+=pk.vx*h;pk.z+=pk.vz*h;const fr=Math.pow(0.6,h);pk.vx*=fr;pk.vz*=fr;
-    }
-    for(const p of pins){
-      p.x+=p.vx*h;p.z+=p.vz*h;const fr=Math.pow(0.02,h);p.vx*=fr;p.vz*=fr;
-      if(puck.y<PIN_H-0.02&&collide(pk,p,PUCK_M,PIN_M,0.55))knock(p);
-    }
-    for(let i=0;i<pins.length;i++)for(let j=i+1;j<pins.length;j++){
-      const a=pins[i],b=pins[j];const sa=Math.hypot(a.vx,a.vz),sb=Math.hypot(b.vx,b.vz);
-      if(sa<0.02&&sb<0.02)continue;
-      if(collide(a,b,PIN_M,PIN_M,0.5)){if(sa>0.25)knock(b);if(sb>0.25)knock(a);}
-    }
-    if(!puck.inNet&&pk.z>D-0.05&&Math.abs(pk.x)<HALF&&puck.y<NH){puck.inNet=true;pk.vz*=0.25;pk.vx*=0.3;sfx('net');}
-    if(puck.inNet&&pk.z>D+0.62){pk.z=D+0.62;pk.vz=0;}
-    if(!puck.inNet&&pk.z>D+3.4){pk.z=D+3.4;pk.vz=-Math.abs(pk.vz)*0.2;if(!puck.boards){puck.boards=true;sfx('thud');}}
-  }
-  puck.x=pk.x;puck.z=pk.z;puck.vx=pk.vx;puck.vz=pk.vz;
-  if(!rollDone&&(pk.z>D||Math.hypot(pk.vx,pk.vz)<0.4||rollT>2))rollDone=rollT;
-  const settled=pins.every(p=>Math.hypot(p.vx,p.vz)<0.05&&(!p.fallen||p.a>=Math.PI/2));
-  if(rollDone&&(settled&&rollT-rollDone>0.4||rollT>3.2))endRoll();
-}
-function endRoll(){
-  const down=pins.filter(p=>p.fallen&&!p.counted).length;
-  const fr=bw.fr[bw.frame]||(bw.fr[bw.frame]=[]);fr.push(down);bw.rolls.push(down);
-  const standing=pins.filter(p=>!p.fallen).length;
-  let reset=false,next=false;
-  if(bw.frame<9){if(fr.length===2||fr[0]===10){reset=true;next=true;}}
-  else{
-    const [a,b]=fr;
-    if(fr.length===1){if(a===10)reset=true;}
-    else if(fr.length===2){if(a===10){if(b===10||standing===0)reset=true;}else if(a+b===10)reset=true;else next=true;}
-    else next=true;
-  }
-  const isStrike=down===10&&(fr.length===1||(bw.frame===9&&(fr[fr.length-2]===10||fr.length===3&&fr[0]+fr[1]===10)));
-  const isSpare=!isStrike&&standing===0&&fr.length>=2;
-  if(isStrike){call('ABAT !','good','Les 10 quilles d\'un coup');sfx('horn');}
-  else if(isSpare){call('RÉSERVE !','good',`${down} ${down>1?'quilles':'quille'}`);setTimeout(()=>sfx('goal'),80);}
-  else call(down===0?'RATÉ':`${down} ${down>1?'QUILLES':'QUILLE'}`,down?'post':'',standing&&!reset&&!next?`Il en reste ${standing}`:'');
-  bw.pending={reset,next};
-  if(next&&bw.frame===9)gameOver=true;
-  state='after';afterT=0;outcome='roll';renderSheet();hud();
-}
-function applyBowlPending(){
-  const p=bw.pending;bw.pending=null;if(!p)return;
-  if(p.next){bw.frame++;}
-  if(p.reset||p.next)rackPins();else pins.forEach(q=>{if(q.fallen)q.gone=0.001;});
-  renderSheet();hud();
-}
-function drawPin(p){
-  const base=P(p.x,0,p.z),s=base[2];
-  const top=P(p.x+p.dx*Math.sin(p.a)*PIN_H,Math.cos(p.a)*PIN_H,p.z+p.dz*Math.sin(p.a)*PIN_H);
-  const L=Math.hypot(top[0]-base[0],top[1]-base[1]),ang=Math.atan2(top[1]-base[1],top[0]-base[0])+Math.PI/2;
-  const R=PIN_R*s*1.05,k=p.born<0.25?ease(p.born/0.25):1;
-  ctx.save();
-  if(p.gone)ctx.globalAlpha=Math.max(0,1-p.gone/0.35);
-  ctx.fillStyle='rgba(15,25,45,.22)';ctx.beginPath();ctx.ellipse(base[0],base[1],R*1.2,R*0.4,0,0,7);ctx.fill();
-  ctx.translate(base[0],base[1]);ctx.rotate(ang);ctx.scale(k,k);
-  const prof=[[0,0.62],[0.05,0.86],[0.22,1],[0.42,0.82],[0.58,0.46],[0.68,0.43],[0.8,0.62],[0.92,0.56],[1,0.12]];
-  const path=new Path2D();
-  prof.forEach(([t,w],i)=>{const y=-t*L,x=w*R;i?path.lineTo(x,y):path.moveTo(x,y);});
-  for(let i=prof.length-1;i>=0;i--){const [t,w]=prof[i];path.lineTo(-w*R,-t*L);}
-  path.closePath();
-  const g=ctx.createLinearGradient(-R,0,R,0);g.addColorStop(0,'#c9d0db');g.addColorStop(0.4,'#ffffff');g.addColorStop(1,'#b5bdc9');
-  ctx.fillStyle=g;ctx.fill(path);
-  ctx.save();ctx.clip(path);ctx.fillStyle='#c8102e';ctx.fillRect(-R,-0.66*L,2*R,0.035*L);ctx.fillRect(-R,-0.72*L,2*R,0.035*L);ctx.restore();
-  ctx.strokeStyle='rgba(20,30,50,.45)';ctx.lineWidth=1;ctx.stroke(path);
-  ctx.restore();
-}
-function drawBowlScene(){
-  const items=pins.map(p=>({z:P(p.x,0,p.z)[3],draw:()=>drawPin(p)}));
-  if(!puck.hidden&&puck.z<=D+0.01)items.push({z:P(puck.x,0,puck.z)[3],draw:()=>drawPuck(puck.x,puck.y,puck.z)});
-  items.sort((a,b)=>b.z-a.z).forEach(i=>i.draw());
-}
-
 // ---------- Super défi : les 7 épreuves, grand total ----------
-const SUPER=['cibles','chrono','barre','bouteilles','quilles','tour','duel'];
-const LBL={cibles:'Cibles',chrono:'Chrono',barre:'Barre',bouteilles:'Bouteilles',quilles:'Quilles',tour:'Tour du monde',duel:'Gardien'};
+const SUPER=['cibles','chrono','barre','bouteilles','tour','duel'];
+const LBL={cibles:'Cibles',chrono:'Chrono',barre:'Barre',bouteilles:'Bouteilles',tour:'Tour du monde',duel:'Gardien'};
 let superRun=null;
 function superPts(m){
   if(m==='cibles')return clamp(100-(shots-4)*10,0,100);
   if(m==='chrono')return chrono.count*10;
   if(m==='barre')return barre.pts*5;
   if(m==='bouteilles')return btl.pts*5;
-  if(m==='quilles')return Math.round(bowlScore().score/3);
   if(m==='tour')return clamp(100-(shots-5)*8,0,100);
   return goals*10;
 }
@@ -618,18 +465,17 @@ function newGame(m){
   barre={pts:0,bar:0,post:0,corner:0};frameShake=null;
   bottles=[];if(mode==='bouteilles')newBottles();
   tour={idx:0,pending:false};
-  pins=[];bw={frame:0,fr:[],rolls:[],pending:null};if(mode==='quilles')rackPins();
   if(mode==='tour')goTourSpot();else{setShooter(0,0);drawStatic();}
   resetPuck();
-  $('lblShots').textContent=mode==='chrono'?'Temps':mode==='quilles'?'Carreau':'Lancers';
+  $('lblShots').textContent=mode==='chrono'?'Temps':'Lancers';
   $('lblItems').textContent=MODES[mode].label;
   $('dots').hidden=mode!=='cibles';$('goals').hidden=mode==='cibles';$('plate').hidden=!hasGoalie();
   hud();
 }
 function hud(){
-  $('shots').textContent=mode==='quilles'?`${Math.min(bw.frame+1,10)}/10`:mode==='duel'||mode==='barre'||mode==='bouteilles'?`${shots}/${SHOTS_DUEL}`:mode==='chrono'?Math.ceil(chrono.left):shots;
+  $('shots').textContent=mode==='duel'||mode==='barre'||mode==='bouteilles'?`${shots}/${SHOTS_DUEL}`:mode==='chrono'?Math.ceil(chrono.left):shots;
   $('shots').classList.toggle('warn',mode==='chrono'&&chrono.running&&chrono.left<=10);
-  $('best').textContent=bests[mode]??'–';$('goals').textContent=mode==='quilles'?bowlScore().score:mode==='tour'?`${Math.min(tour.idx+1,TOUR.length)}/${TOUR.length}`:mode==='chrono'?chrono.count:mode==='barre'?barre.pts:mode==='bouteilles'?btl.pts:goals;
+  $('best').textContent=bests[mode]??'–';$('goals').textContent=mode==='tour'?`${Math.min(tour.idx+1,TOUR.length)}/${TOUR.length}`:mode==='chrono'?chrono.count:mode==='barre'?barre.pts:mode==='bouteilles'?btl.pts:goals;
   [...$('dots').children].forEach((d,i)=>d.classList.toggle('on',!!TARGETS[i].hit));
   const tg=$('stag');tg.hidden=!superRun;
   if(superRun)tg.innerHTML=`<span class="pk">SUPER</span><span class="pn">Épreuve ${Math.min(superRun.pts.length+1,SUPER.length)}/${SUPER.length} · ${superTotal()} pts</span>`;
@@ -662,8 +508,6 @@ function sfx(k){
   if(k==='thud'){const o=osc('sine',120);o.frequency.exponentialRampToValueAtTime(45,t+.2);out(o,t,.003,.55,.2);o.start(t);o.stop(t+.3);
     const n=noise(.15),fl=filt('lowpass',500);n.connect(fl);out(fl,t,.003,.3,.1);n.start(t);}
   if(k==='goal')horn(t,.5);
-  if(k==='pin'){const n=noise(.08),fl=filt('bandpass',1100+Math.random()*500,2);n.connect(fl);out(fl,t,.001,.5,.07);n.start(t);
-    const o=osc('triangle',380+Math.random()*120);out(o,t,.001,.22,.08);o.start(t);o.stop(t+.12);}
   if(k==='bottle'){const o=osc('triangle',340);o.frequency.exponentialRampToValueAtTime(140,t+.12);out(o,t,.002,.4,.12);o.start(t);o.stop(t+.2);
     const n=noise(.35),fl=filt('highpass',1800);n.connect(fl);out(fl,t+.02,.01,.25,.3);n.start(t);}
   if(k==='bar'){[1650,2480,3720,5100].forEach((fr,i)=>{const o=osc('sine',fr);out(o,t,.002,.24/(i+1),1.7);o.start(t);o.stop(t+1.9);});}
@@ -701,7 +545,6 @@ function shoot(){
   lastShot={ty:slide?PT/2:ty};
   fadeSwipe=pts;fadeT=0.45;
   shots++;firstShot=false;impact=null;trail=[];flightT=0;state='flying';hud();sfx('shot');
-  if(mode==='quilles'){shootBowl();return;}
   if(hasGoalie())planShot();
 }
 
@@ -785,7 +628,6 @@ function tearTarget(t,x,y,fx){
 // ---------- Boucle ----------
 function update(dt){
   updateGoalie(dt);
-  if(mode==='quilles')updateBowl(dt);
   if(state==='flying'){
     flightT+=dt;
     const pos=t=>[flight.ox+flight.vx*t,flight.slide?PT/2:PT/2+flight.vy*t-0.5*G*t*t,flight.oz+flight.vz*t];
@@ -808,7 +650,6 @@ function update(dt){
     if(gameOver){if(afterT>1.6){state='done';showEnd();}}
     else if(afterT>(mode==='chrono'?0.7:1.15)){
       if(mode==='tour'&&tour.pending){tour.pending=false;goTourSpot();}
-      if(mode==='quilles')applyBowlPending();
       resetPuck();state='ready';
     }
   }
@@ -1084,7 +925,6 @@ function drawGauge(){
   const gx=clamp(Math.min(P(-HALF,0,D)[0],P(-HALF,NH,D)[0],P(-0.85,0,D+0.7)[0])-Math.max(22,W*0.06),18,W),y0=P(0,0,D)[1],GTOP=mode==='bouteilles'?1.65:1.45,y1=P(0,GTOP,D)[1],Y=h=>P(0,h,D)[1];
   ctx.fillStyle='rgba(8,12,22,.6)';ctx.beginPath();ctx.roundRect(gx-5,y1-4,10,y0-y1+8,5);ctx.fill();
   if(mode==='cibles'){ctx.fillStyle='rgba(255,182,39,.45)';for(const c of[TARGETS[2].y,TARGETS[0].y]){const a=Y(c+HIT_R),b=Y(Math.max(0,c-HIT_R));ctx.fillRect(gx-3,a,6,b-a);}}
-  else if(mode==='quilles'){ctx.fillStyle='rgba(255,182,39,.55)';const a=Y(PIN_H-0.02),b=Y(0);ctx.fillRect(gx-3,a,6,b-a);}
   else if(mode==='bouteilles'){ctx.fillStyle='rgba(255,182,39,.55)';const a=Y(BY+BH),b=Y(BY);ctx.fillRect(gx-3,a,6,b-a);}
   else if(mode==='barre'){ctx.fillStyle='rgba(255,182,39,.55)';const a=Y(NH+BAR_TOL),b=Y(NH-BAR_TOL);ctx.fillRect(gx-3,a,6,b-a);}
   else if(mode==='chrono'&&chrono.cur){const c=chrono.cur.y,a=Y(c+HIT_R),b=Y(Math.max(0,c-HIT_R));ctx.fillStyle='rgba(255,182,39,.45)';ctx.fillRect(gx-3,a,6,b-a);}
@@ -1113,7 +953,6 @@ function render(now){
     for(const b of bottles)drawBottle(b,now);
     if(flash){const k=flash.t/0.5;ctx.strokeStyle=`rgba(255,182,39,${1-k})`;ctx.lineWidth=3;ctx.beginPath();ctx.arc(flash.x,flash.y,flash.r*(1+k*1.6),0,7);ctx.stroke();}
     drawFrame();
-    if(mode==='quilles')drawBowlScene();
   }else{
     drawFrame();
     if(show&&gDepth()>0&&z<=D+0.01)drawPuck(puck.x,puck.y,z);
@@ -1127,11 +966,11 @@ function render(now){
     ctx.beginPath();ctx.moveTo(-s.s,-s.s*0.4);ctx.lineTo(s.s*0.8,-s.s*0.6);ctx.lineTo(s.s*0.3,s.s*0.7);ctx.closePath();ctx.fill();ctx.restore();}
   if(state==='ready'){const [px,py,s]=P(ORG.x,PT/2,ORG.z),w=PR*s,pulse=1.5+0.25*Math.sin(now*0.006);
     ctx.strokeStyle='rgba(255,182,39,.8)';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(px,py,w*pulse,w*pulse*0.42,0,0,7);ctx.stroke();}
-  if(show&&mode!=='quilles'&&(!hasGoalie()?z<=D+0.01:gDepth()<=0))drawPuck(puck.x,puck.y,z);
+  if(show&&(!hasGoalie()?z<=D+0.01:gDepth()<=0))drawPuck(puck.x,puck.y,z);
   if(state!=='intro')drawGauge();
   if(down)drawSwipe(swipe,1);else if(fadeT>0)drawSwipe(fadeSwipe,fadeT/0.45);
   if(state==='ready'&&firstShot){const py=P(ORG.x,0,ORG.z)[1];ctx.font='600 17px "Barlow Condensed","Arial Narrow",sans-serif';ctx.textAlign='center';
-    ctx.fillStyle='rgba(20,30,50,.75)';ctx.fillText(mode==='cibles'?'↑  Glisse vers une cible  ↑':mode==='chrono'?'↑  Le chrono part au premier lancer  ↑':mode==='barre'?'↑  Vise la barre, fais ding  ↑':mode==='bouteilles'?'↑  Fais tomber les bouteilles dans l\'ordre  ↑':mode==='tour'?'↑  Marque de chaque position  ↑':mode==='quilles'?'↑  Glisse doucement, au ras de la glace  ↑':'↑  Déjoue le gardien  ↑',cx,Math.min(H-24,py+56));}
+    ctx.fillStyle='rgba(20,30,50,.75)';ctx.fillText(mode==='cibles'?'↑  Glisse vers une cible  ↑':mode==='chrono'?'↑  Le chrono part au premier lancer  ↑':mode==='barre'?'↑  Vise la barre, fais ding  ↑':mode==='bouteilles'?'↑  Fais tomber les bouteilles dans l\'ordre  ↑':mode==='tour'?'↑  Marque de chaque position  ↑':'↑  Déjoue le gardien  ↑',cx,Math.min(H-24,py+56));}
 }
 
 let last=performance.now();
@@ -1144,12 +983,6 @@ function showEnd(){
     $('endEyebrow').textContent='Les 4 cibles en';
     $('endShots').textContent=shots+(shots>1?' lancers':' lancer');
     $('endMsg').textContent=shots<=4?'Parfait. Quatre lancers, quatre cibles.':shots<=6?'Très solide. Digne du match des étoiles.':shots<=9?'Pas mal du tout. Le geste commence à rentrer.':'Continue à pratiquer : le dosage de la vitesse fait toute la différence.';
-  }else if(mode==='quilles'){
-    const n=bowlScore().score,marks=[...Array(10).keys()].flatMap(frameMarks),st=marks.filter(m=>m==='X').length,sp=marks.filter(m=>m==='/').length;
-    if(bests.quilles==null||n>bests.quilles){bests.quilles=n;isNew=true;try{localStorage.setItem(key,String(n));}catch(e){}}
-    $('endEyebrow').textContent='Quilles sur glace · 10 carreaux';
-    $('endShots').textContent=n+(n>1?' points':' point');
-    $('endMsg').textContent=`${st} ${st>1?'abats':'abat'}, ${sp} ${sp>1?'réserves':'réserve'}. `+(n>=200?'Champion de la salle de quilles.':n>=120?'Belle partie.':n>=60?'Pas pire pour un joueur de hockey.':'Les quilles ont gagné. Vise la poche, entre la 1 et la 3.');
   }else if(mode==='tour'){
     if(bests.tour==null||shots<bests.tour){bests.tour=shots;isNew=true;try{localStorage.setItem(key,String(shots));}catch(e){}}
     $('endEyebrow').textContent='Tour du monde · 5 positions en';
@@ -1195,14 +1028,14 @@ function showEnd(){
       ag.textContent='Recommencer le super défi';sw.textContent='Menu';superRun.done=true;
     }
   }else{ag.textContent='Rejouer';sw.textContent='Changer de mode';}
-  renderSheet();hud();$('end').hidden=false;
+  hud();$('end').hidden=false;
 }
 
 for(const b of document.querySelectorAll('.mode'))b.addEventListener('click',()=>{initAudio();$('intro').hidden=true;
   if(b.dataset.mode==='super'){superRun={pts:[]};startSuperStage();}else{superRun=null;newGame(b.dataset.mode);}});
 $('again').addEventListener('click',()=>{initAudio();$('end').hidden=true;
   if(superRun){if(superRun.done)superRun={pts:[]};startSuperStage();}else newGame();});
-$('switch').addEventListener('click',()=>{superRun=null;$('end').hidden=true;$('intro').hidden=false;$('plate').hidden=true;$('stag').hidden=true;$('sheet').hidden=true;state='intro';});
+$('switch').addEventListener('click',()=>{superRun=null;$('end').hidden=true;$('intro').hidden=false;$('plate').hidden=true;$('stag').hidden=true;state='intro';});
 addEventListener('resize',layout);
 
 function start(data){
