@@ -63,8 +63,11 @@ body{margin:0;background:var(--night);color:var(--ink);font-family:var(--f-body)
 
 .ov{position:fixed;inset:0;display:flex;align-items:safe center;overflow-y:auto;justify-content:center;background:rgba(6,9,18,.62);
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px}
-.card{width:100%;max-width:360px;background:#0f1524;border:1px solid #2a3247;border-top:4px solid var(--red);border-radius:8px;padding:22px 22px 20px;
+.card{position:relative;width:100%;max-width:360px;background:#0f1524;border:1px solid #2a3247;border-top:4px solid var(--red);border-radius:8px;padding:22px 22px 20px;
   box-shadow:0 20px 50px rgba(0,0,0,.5);display:flex;flex-direction:column;gap:12px}
+.lang{position:absolute;top:14px;right:14px;margin:0;padding:5px 9px 3px;font:600 16px/1 var(--f-score);letter-spacing:.1em;background:#1c2436;color:var(--ink);border:1px solid #2a3247;border-radius:999px;box-shadow:none}
+.lang:active{transform:none;box-shadow:none}
+#intro .eyebrow{padding-right:52px}
 .eyebrow{font:600 12px/1 var(--f-body);letter-spacing:.18em;text-transform:uppercase;color:var(--mute)}
 .card h1{margin:0;font:600 52px/.9 var(--f-score);letter-spacing:.01em;text-wrap:balance}
 .card h1 span{color:var(--amber)}
@@ -110,10 +113,10 @@ button.ghost:active{box-shadow:0 2px 0 #0a0e18}
   <div class="board">
     <div class="cell"><span class="lbl" id="lblShots">Lancers</span><span id="shots" class="num">0</span></div>
     <div class="cell"><span class="lbl" id="lblItems">Cibles</span><div class="mini" id="dots"></div><span id="goals" class="num" hidden>0</span></div>
-    <div class="cell"><span class="lbl">Record</span><span id="best" class="num">–</span></div>
+    <div class="cell"><span class="lbl" data-i18n="lblBest">Record</span><span id="best" class="num">–</span></div>
   </div>
   <div id="stag" hidden></div>
-  <div id="plate" hidden><span class="pk">35</span><span class="pn">Félix Gagnon · gardien</span></div>
+  <div id="plate" hidden><span class="pk">35</span><span class="pn" data-i18n="plateName">Félix Gagnon · gardien</span></div>
 </div>
 
 <div id="call"></div>
@@ -121,22 +124,23 @@ button.ghost:active{box-shadow:0 2px 0 #0a0e18}
 
 <div class="ov" id="intro">
   <div class="card">
-    <span class="eyebrow">Concours d'adresse · Match des étoiles</span>
-    <h1>Tir de <span>précision</span></h1>
-    <p>Six épreuves : cibles, chrono, barre, bouteilles, tour du monde et duel contre le gardien Félix Gagnon. Le super défi les enchaîne toutes pour un grand total.</p>
+    <button id="langBtn" class="lang" type="button">EN</button>
+    <span class="eyebrow" data-i18n="eyebrow">Concours d'adresse · Match des étoiles</span>
+    <h1 data-i18n="title">Tir de <span>précision</span></h1>
+    <p data-i18n="intro">Six épreuves : cibles, chrono, barre, bouteilles, tour du monde et duel contre le gardien Félix Gagnon. Le super défi les enchaîne toutes pour un grand total.</p>
     <ul class="rules">
-      <li><b>1</b><span>Glisse le doigt de la rondelle vers le filet. La direction vise à gauche ou à droite.</span></li>
-      <li><b>2</b><span>La vitesse du geste donne la hauteur : lent pour le bas, vif pour le haut.</span></li>
-      <li><b>3</b><span>Contre le gardien, vise les coins hauts : au centre, il arrête presque tout.</span></li>
+      <li><b>1</b><span data-i18n="r1">Glisse le doigt de la rondelle vers le filet. La direction vise à gauche ou à droite.</span></li>
+      <li><b>2</b><span data-i18n="r2">La vitesse du geste donne la hauteur : lent pour le bas, vif pour le haut.</span></li>
+      <li><b>3</b><span data-i18n="r3">Contre le gardien, vise les coins hauts : au centre, il arrête presque tout.</span></li>
     </ul>
     <div class="modes">
-      <button class="mode super" type="button" data-mode="super" id="mSuper"><span>Super défi</span><span class="ms">Les 6 épreuves à la suite, grand total</span></button>
-      <button class="mode" type="button" data-mode="cibles" id="mCibles"><span>Cibles</span><span class="ms">4 cibles en papier</span></button>
-      <button class="mode light" type="button" data-mode="chrono" id="mChrono"><span>Chrono</span><span class="ms">60 s, cibles en rafale</span></button>
-      <button class="mode gold" type="button" data-mode="barre" id="mBarre"><span>Barre</span><span class="ms">10 lancers, fais ding</span></button>
-      <button class="mode green" type="button" data-mode="bouteilles" id="mBouteilles"><span>Bouteilles</span><span class="ms">5 numéros, dans l'ordre</span></button>
-      <button class="mode ink" type="button" data-mode="tour" id="mTour"><span>Tour du monde</span><span class="ms">5 positions, contre le #35</span></button>
-      <button class="mode alt" type="button" data-mode="duel" id="mDuel"><span>Gardien</span><span class="ms">10 tirs contre le #35</span></button>
+      <button class="mode super" type="button" data-mode="super" id="mSuper" data-i18n="mSuper"><span>Super défi</span><span class="ms">Les 6 épreuves à la suite, grand total</span></button>
+      <button class="mode" type="button" data-mode="cibles" id="mCibles" data-i18n="mCibles"><span>Cibles</span><span class="ms">4 cibles en papier</span></button>
+      <button class="mode light" type="button" data-mode="chrono" id="mChrono" data-i18n="mChrono"><span>Chrono</span><span class="ms">60 s, cibles en rafale</span></button>
+      <button class="mode gold" type="button" data-mode="barre" id="mBarre" data-i18n="mBarre"><span>Barre</span><span class="ms">10 lancers, fais ding</span></button>
+      <button class="mode green" type="button" data-mode="bouteilles" id="mBouteilles" data-i18n="mBouteilles"><span>Bouteilles</span><span class="ms">5 numéros, dans l'ordre</span></button>
+      <button class="mode ink" type="button" data-mode="tour" id="mTour" data-i18n="mTour"><span>Tour du monde</span><span class="ms">5 positions, contre le #35</span></button>
+      <button class="mode alt" type="button" data-mode="duel" id="mDuel" data-i18n="mDuel"><span>Gardien</span><span class="ms">10 tirs contre le #35</span></button>
     </div>
   </div>
 </div>
@@ -159,6 +163,32 @@ button.ghost:active{box-shadow:0 2px 0 #0a0e18}
 const cv=document.getElementById('c'), ctx=cv.getContext('2d');
 const st=document.createElement('canvas'), sctx=st.getContext('2d');
 const $=id=>document.getElementById(id);
+// ---------- Langue : français / anglais ----------
+let lang='fr';
+try{lang=localStorage.getItem('tirprecision.lang')||((navigator.language||'fr').toLowerCase().startsWith('fr')?'fr':'en');}catch(e){lang=(navigator.language||'fr').toLowerCase().startsWith('fr')?'fr':'en';}
+const L=(fr,en)=>lang==='en'?en:fr;
+const I18N={
+  eyebrow:['Concours d\'adresse · Match des étoiles','Skills Competition · All-Star Game'],
+  title:['Tir de <span>précision</span>','Precision <span>Shooting</span>'],
+  intro:['Six épreuves : cibles, chrono, barre, bouteilles, tour du monde et duel contre le gardien Félix Gagnon. Le super défi les enchaîne toutes pour un grand total.','Six events: targets, time attack, crossbar, bottles, around the world and a duel against goalie Félix Gagnon. The super challenge chains them all for a grand total.'],
+  r1:['Glisse le doigt de la rondelle vers le filet. La direction vise à gauche ou à droite.','Swipe from the puck toward the net. The direction aims left or right.'],
+  r2:['La vitesse du geste donne la hauteur : lent pour le bas, vif pour le haut.','Swipe speed sets the height: slow for low, fast for high.'],
+  r3:['Contre le gardien, vise les coins hauts : au centre, il arrête presque tout.','Against the goalie, aim for the top corners: he stops almost everything in the middle.'],
+  mSuper:['<span>Super défi</span><span class="ms">Les 6 épreuves à la suite, grand total</span>','<span>Super Challenge</span><span class="ms">All 6 events in a row, grand total</span>'],
+  mCibles:['<span>Cibles</span><span class="ms">4 cibles en papier</span>','<span>Targets</span><span class="ms">4 paper targets</span>'],
+  mChrono:['<span>Chrono</span><span class="ms">60 s, cibles en rafale</span>','<span>Time Attack</span><span class="ms">60 s, rapid-fire targets</span>'],
+  mBarre:['<span>Barre</span><span class="ms">10 lancers, fais ding</span>','<span>Crossbar</span><span class="ms">10 shots, make it ding</span>'],
+  mBouteilles:['<span>Bouteilles</span><span class="ms">5 numéros, dans l\'ordre</span>','<span>Bottles</span><span class="ms">5 numbers, in order</span>'],
+  mTour:['<span>Tour du monde</span><span class="ms">5 positions, contre le #35</span>','<span>Around the World</span><span class="ms">5 spots, against #35</span>'],
+  mDuel:['<span>Gardien</span><span class="ms">10 tirs contre le #35</span>','<span>Goalie</span><span class="ms">10 shots against #35</span>'],
+  plateName:['Félix Gagnon · gardien','Félix Gagnon · goalie'],
+  lblBest:['Record','Best'],
+};
+function applyLang(){
+  document.documentElement.lang=lang;document.title=L('Tir de précision','Precision Shooting');
+  for(const el of document.querySelectorAll('[data-i18n]')){const v=I18N[el.dataset.i18n];if(v)el.innerHTML=v[lang==='en'?1:0];}
+  const lb=$('langBtn');lb.textContent=lang==='en'?'FR':'EN';lb.setAttribute('aria-label',lang==='en'?'Passer en français':'Switch to English');
+}
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 
 // Monde (mètres) : x gauche/droite, y hauteur, z profondeur vers le filet
@@ -166,12 +196,12 @@ const G=9.8, D=6, HALF=0.915, NH=1.22, PR=0.038, PT=0.0254, TR=0.19, CAMH=0.9, C
 const HIT_R=TR+PR*0.6, GZ=D-0.4, SHOTS_DUEL=10;
 const TARGETS=[{x:-0.695,y:1.0,col:1,row:1},{x:0.695,y:1.0,col:2,row:1},{x:-0.695,y:0.22,col:1,row:2},{x:0.695,y:0.22,col:2,row:2}];
 const MODES={
-  cibles:{label:'Cibles',key:'tirprecision.best'},
-  duel:{label:'Buts',key:'tirprecision.best.duel'},
-  chrono:{label:'Cibles',key:'tirprecision.best.chrono'},
-  barre:{label:'Points',key:'tirprecision.best.barre'},
-  bouteilles:{label:'Points',key:'tirprecision.best.bouteilles'},
-  tour:{label:'Position',key:'tirprecision.best.tour'}
+  cibles:{label:['Cibles','Targets'],key:'tirprecision.best'},
+  duel:{label:['Buts','Goals'],key:'tirprecision.best.duel'},
+  chrono:{label:['Cibles','Targets'],key:'tirprecision.best.chrono'},
+  barre:{label:['Points','Points'],key:'tirprecision.best.barre'},
+  bouteilles:{label:['Points','Points'],key:'tirprecision.best.bouteilles'},
+  tour:{label:['Position','Spot'],key:'tirprecision.best.tour'}
 };
 let mode='cibles';
 const bests={};
@@ -285,19 +315,19 @@ function resetGoalie(){Object.assign(GK,{x:0,d:0,gl:[...ST_GL],bl:[...ST_BL],tx:
 // Probabilité de but selon l'endroit visé dans le filet (approximation inspirée des statistiques :
 // la majorité des buts entrent au-dessus des jambières, le coin haut côté mitaine en tête, le centre presque jamais)
 function zoneOf(x,y){
-  const ax=Math.abs(x),side=x>=0?'mitaine':'bâton',edge=HALF-ax,top=NH-y,cl=v=>clamp(v,0,1);
+  const ax=Math.abs(x),side=x>=0?L('mitaine','glove'):L('bâton','stick'),edge=HALF-ax,top=NH-y,cl=v=>clamp(v,0,1);
   if(y>0.78){
-    if(ax>0.55)return{label:`Coin haut, côté ${side}`,p:(x>=0?0.58:0.52)+0.30*cl(1-(edge+top)/0.5),part:x>=0?'glove':'blocker'};
-    if(ax>0.22)return{label:"Haut, par-dessus l'épaule",p:0.22+0.15*cl(1-top/0.3),part:x>=0?'glove':'blocker'};
-    return{label:'Haut, au-dessus du masque',p:0.12+0.10*cl(1-top/0.25),part:y<1.0?'mask':(x>=0?'glove':'blocker')};
+    if(ax>0.55)return{label:L(`Coin haut, côté ${side}`,`Top corner, ${side} side`),p:(x>=0?0.58:0.52)+0.30*cl(1-(edge+top)/0.5),part:x>=0?'glove':'blocker'};
+    if(ax>0.22)return{label:L("Haut, par-dessus l'épaule",'High, over the shoulder'),p:0.22+0.15*cl(1-top/0.3),part:x>=0?'glove':'blocker'};
+    return{label:L('Haut, au-dessus du masque','High, over the mask'),p:0.12+0.10*cl(1-top/0.25),part:y<1.0?'mask':(x>=0?'glove':'blocker')};
   }
   if(y>0.32){
-    if(ax>0.62)return{label:`Mi-hauteur, côté ${side}`,p:(x>=0?0.22:0.30)+0.12*cl(1-edge/0.3),part:x>=0?'glove':'blocker'};
-    return{label:'En plein centre',p:0.03,part:'body'};
+    if(ax>0.62)return{label:L(`Mi-hauteur, côté ${side}`,`Mid-height, ${side} side`),p:(x>=0?0.22:0.30)+0.12*cl(1-edge/0.3),part:x>=0?'glove':'blocker'};
+    return{label:L('En plein centre','Dead center'),p:0.03,part:'body'};
   }
-  if(ax>0.78)return{label:`Coin bas, côté ${side}`,p:0.22+0.13*cl(1-edge/0.14),part:'pads'};
-  if(ax>0.12)return{label:'Bas, sur les jambières',p:0.05,part:'pads'};
-  return{label:'Entre les jambières',p:0.04,part:'five'};
+  if(ax>0.78)return{label:L(`Coin bas, côté ${side}`,`Low corner, ${side} side`),p:0.22+0.13*cl(1-edge/0.14),part:'pads'};
+  if(ax>0.12)return{label:L('Bas, sur les jambières','Low, on the pads'),p:0.05,part:'pads'};
+  return{label:L('Entre les jambières','Five-hole'),p:0.04,part:'five'};
 }
 const ease=k=>1-Math.pow(1-k,3);
 function poseNow(){return{x:GK.x,d:GK.d,gl:[...GK.gl],bl:[...GK.bl]};}
@@ -364,22 +394,24 @@ function ring(part,x,y){
 }
 // ---------- Tour du monde : 5 positions autour de l'enclave ----------
 const TOUR=[
-  {x:-3.4,z:3.2,label:'Aile gauche',af:0.6},
-  {x:-2.3,z:1.6,label:'Cercle gauche',af:0.85},
-  {x:0,z:0,label:'Enclave',af:1},
-  {x:2.3,z:1.6,label:'Cercle droit',af:0.85},
-  {x:3.4,z:3.2,label:'Aile droite',af:0.6}
+  {x:-3.4,z:3.2,label:['Aile gauche','Left wing'],af:0.6},
+  {x:-2.3,z:1.6,label:['Cercle gauche','Left circle'],af:0.85},
+  {x:0,z:0,label:['Enclave','Slot'],af:1},
+  {x:2.3,z:1.6,label:['Cercle droit','Right circle'],af:0.85},
+  {x:3.4,z:3.2,label:['Aile droite','Right wing'],af:0.6}
 ];
 let tour={idx:0,pending:false};
+const tl=p=>L(...p.label);
 function hasGoalie(){return mode==='duel'||mode==='tour';}
 function gDepth(){const F=gFrame();return(puck.x-F.gx)*F.fx+(puck.z-F.gz)*F.fz;}
 function goTourSpot(){
   const p=TOUR[tour.idx];setShooter(p.x,p.z);drawStatic();resetGoalie();
-  call(p.label.toUpperCase(),'post',`Position ${tour.idx+1} sur ${TOUR.length}`);
+  call(tl(p).toUpperCase(),'post',L(`Position ${tour.idx+1} sur ${TOUR.length}`,`Spot ${tour.idx+1} of ${TOUR.length}`));
 }
 // ---------- Super défi : les 7 épreuves, grand total ----------
 const SUPER=['cibles','chrono','barre','bouteilles','tour','duel'];
-const LBL={cibles:'Cibles',chrono:'Chrono',barre:'Barre',bouteilles:'Bouteilles',tour:'Tour du monde',duel:'Gardien'};
+const LBLS={cibles:['Cibles','Targets'],chrono:['Chrono','Time Attack'],barre:['Barre','Crossbar'],bouteilles:['Bouteilles','Bottles'],tour:['Tour du monde','Around the World'],duel:['Gardien','Goalie']};
+const lbl=m=>L(...LBLS[m]);
 let superRun=null;
 function superPts(m){
   if(m==='cibles')return clamp(100-(shots-4)*10,0,100);
@@ -392,7 +424,7 @@ function superPts(m){
 const superTotal=()=>superRun?superRun.pts.reduce((a,b)=>a+b.pts,0):0;
 function startSuperStage(){
   const m=SUPER[superRun.pts.length];newGame(m);
-  if(m!=='tour')call(LBL[m].toUpperCase(),'post',`Super défi · épreuve ${superRun.pts.length+1} sur ${SUPER.length}`);
+  if(m!=='tour')call(lbl(m).toUpperCase(),'post',L(`Super défi · épreuve ${superRun.pts.length+1} sur ${SUPER.length}`,`Super Challenge · event ${superRun.pts.length+1} of ${SUPER.length}`));
 }
 // ---------- Bouteilles sur le filet ----------
 const BY=NH+0.03,BZO=0.15,BR=0.042,BH=0.25;
@@ -414,9 +446,9 @@ function knockBottle(b,xb,yb){
   const left=bottles.filter(x=>!x.down).map(x=>x.n);btl.next=left.length?Math.min(...left):0;
   if(!left.length){
     gameOver=true;
-    if(btl.inOrder===5){btl.pts+=5;call('PARFAIT !','good','+5 de boni · les 5 dans l\'ordre');setTimeout(()=>sfx('horn'),250);}
-    else call(wasNext?'DANS L\'ORDRE !':`BOUTEILLE ${b.n}`,'good',wasNext?'+3 points':'+1 point · hors de l\'ordre');
-  }else call(wasNext?'DANS L\'ORDRE !':`BOUTEILLE ${b.n}`,wasNext?'good':'post',wasNext?`+3 points · prochaine : ${btl.next}`:`+1 point · hors de l'ordre, vise la ${btl.next}`);
+    if(btl.inOrder===5){btl.pts+=5;call(L('PARFAIT !','PERFECT!'),'good',L('+5 de boni · les 5 dans l\'ordre','+5 bonus · all 5 in order'));setTimeout(()=>sfx('horn'),250);}
+    else call(wasNext?L('DANS L\'ORDRE !','IN ORDER!'):L(`BOUTEILLE ${b.n}`,`BOTTLE ${b.n}`),'good',wasNext?'+3 points':L('+1 point · hors de l\'ordre','+1 point · out of order'));
+  }else call(wasNext?L('DANS L\'ORDRE !','IN ORDER!'):L(`BOUTEILLE ${b.n}`,`BOTTLE ${b.n}`),wasNext?'good':'post',wasNext?L(`+3 points · prochaine : ${btl.next}`,`+3 points · next: ${btl.next}`):L(`+1 point · hors de l'ordre, vise la ${btl.next}`,`+1 point · out of order, aim for ${btl.next}`));
   hud();
 }
 function drawBottle(b,now){
@@ -445,7 +477,7 @@ function drawBadges(now){
   }
   ctx.textBaseline='alphabetic';
 }
-function scoreBar(kind,p,txt){barre[kind]++;barre.pts+=p;hud();call(txt,'good',`+${p} ${p>1?'points':'point'}`);}
+function scoreBar(kind,p,txt){barre[kind]++;barre.pts+=p;hud();call(txt,'good',`+${p} `+(p>1?'points':'point'));}
 function spawnTarget(){
   const prev=chrono.cur||chrono.list[chrono.list.length-1];let x,y,k=0;
   do{x=(Math.random()*2-1)*(HALF-TR-0.03);y=TR+0.03+Math.random()*(NH-2*TR-0.06);k++;}while(prev&&Math.hypot(x-prev.x,y-prev.y)<0.5&&k<30);
@@ -467,18 +499,18 @@ function newGame(m){
   tour={idx:0,pending:false};
   if(mode==='tour')goTourSpot();else{setShooter(0,0);drawStatic();}
   resetPuck();
-  $('lblShots').textContent=mode==='chrono'?'Temps':'Lancers';
-  $('lblItems').textContent=MODES[mode].label;
+  setLabels();
   $('dots').hidden=mode!=='cibles';$('goals').hidden=mode==='cibles';$('plate').hidden=!hasGoalie();
   hud();
 }
+function setLabels(){$('lblShots').textContent=mode==='chrono'?L('Temps','Time'):L('Lancers','Shots');$('lblItems').textContent=L(...MODES[mode].label);}
 function hud(){
   $('shots').textContent=mode==='duel'||mode==='barre'||mode==='bouteilles'?`${shots}/${SHOTS_DUEL}`:mode==='chrono'?Math.ceil(chrono.left):shots;
   $('shots').classList.toggle('warn',mode==='chrono'&&chrono.running&&chrono.left<=10);
   $('best').textContent=bests[mode]??'–';$('goals').textContent=mode==='tour'?`${Math.min(tour.idx+1,TOUR.length)}/${TOUR.length}`:mode==='chrono'?chrono.count:mode==='barre'?barre.pts:mode==='bouteilles'?btl.pts:goals;
   [...$('dots').children].forEach((d,i)=>d.classList.toggle('on',!!TARGETS[i].hit));
   const tg=$('stag');tg.hidden=!superRun;
-  if(superRun)tg.innerHTML=`<span class="pk">SUPER</span><span class="pn">Épreuve ${Math.min(superRun.pts.length+1,SUPER.length)}/${SUPER.length} · ${superTotal()} pts</span>`;
+  if(superRun)tg.innerHTML=`<span class="pk">SUPER</span><span class="pn">${L('Épreuve','Event')} ${Math.min(superRun.pts.length+1,SUPER.length)}/${SUPER.length} · ${superTotal()} pts</span>`;
 }
 function call(txt,kind,sub){const el=$('call');el.textContent=txt;el.className='';void el.offsetWidth;el.className='show '+(kind||'');
   const sb=$('sub');sb.textContent=sub||'';sb.className='';void sb.offsetWidth;if(sub)sb.className='show';}
@@ -553,13 +585,13 @@ function intoNet(){puck.inNet=true;puck.vz*=0.3;puck.vx*=0.4;}
 function endCheck(){if((mode==='duel'||mode==='barre'||mode==='bouteilles')&&shots>=SHOTS_DUEL)gameOver=true;}
 function goalieSave(part,x,y,z){
   const F=gFrame();puck.x=x-F.fx*0.02;puck.y=y;puck.z=z-F.fz*0.02;impact={x,y,z};state='after';afterT=0;outcome='save';
-  const zn=GK.plan&&GK.plan.zone,info=zn?`${zn.label} · ${Math.round(zn.p*100)} % de chances`:'';
-  if(part==='glove'){GK.caught=true;puck.hidden=true;sfx('glove');call('LA MITAINE !','post',info);}
+  const zn=GK.plan&&GK.plan.zone,info=zn?`${zn.label} · `+L(`${Math.round(zn.p*100)} % de chances`,`${Math.round(zn.p*100)}% chance`):'';
+  if(part==='glove'){GK.caught=true;puck.hidden=true;sfx('glove');call(L('LA MITAINE !','GLOVE SAVE!'),'post',info);}
   else{
     const sp=2.5+Math.random()*2,lat=(Math.random()-0.5)*3;puck.vx=-F.fx*sp+F.rx*lat;puck.vz=-F.fz*sp+F.rz*lat;
     puck.vy=part==='mask'?1.8:part==='pads'||part==='five'?0.4:Math.random()*1.4;
     sfx(part==='five'?'stick':'pad');
-    call({blocker:'LE BLOQUEUR !',mask:'SUR LE MASQUE !',pads:'LES JAMBIÈRES !',five:'IL FERME LA PORTE !',body:'EN PLEINE POITRINE !'}[part],'post',info);
+    call(L({blocker:'LE BLOQUEUR !',mask:'SUR LE MASQUE !',pads:'LES JAMBIÈRES !',five:'IL FERME LA PORTE !',body:'EN PLEINE POITRINE !'}[part],{blocker:'BLOCKER SAVE!',mask:'OFF THE MASK!',pads:'PAD SAVE!',five:'FIVE-HOLE CLOSED!',body:'RIGHT IN THE CHEST!'}[part]),'post',info);
   }
   endCheck();
 }
@@ -576,8 +608,8 @@ function resolve(){
     const t=TARGETS.find(t=>!t.hit&&Math.hypot(x-t.x,y-t.y)<HIT_R);
     if(t){
       tearTarget(t,x,y,true);intoNet();sfx('tear');sfx('net');hud();
-      if(!TARGETS.some(t=>!t.hit)){outcome='done';gameOver=true;call('LES 4 !','good');setTimeout(()=>sfx('horn'),250);}
-      else{outcome='score';call('CIBLE !','good');}
+      if(!TARGETS.some(t=>!t.hit)){outcome='done';gameOver=true;call(L('LES 4 !','ALL 4!'),'good');setTimeout(()=>sfx('horn'),250);}
+      else{outcome='score';call(L('CIBLE !','TARGET!'),'good');}
       return;
     }
   }
@@ -585,29 +617,29 @@ function resolve(){
     const t=chrono.cur;
     if(t&&!t.hit&&t.born>0.15&&Math.hypot(x-t.x,y-t.y)<HIT_R){
       tearTarget(t,x,y,true);intoNet();sfx('tear');sfx('net');chrono.count++;chrono.next=0.45;chrono.cur=null;hud();
-      outcome='score';call('CIBLE !','good',`${chrono.count} ${chrono.count>1?'cibles':'cible'}`);return;
+      outcome='score';call(L('CIBLE !','TARGET!'),'good',`${chrono.count} `+(chrono.count>1?L('cibles','targets'):L('cible','target')));return;
     }
   }
   const tol=mode==='barre'?BAR_TOL:PR+0.03,nearPost=Math.abs(Math.abs(x)-HALF)<tol,nearBar=Math.abs(y-NH)<tol;
   if(mode==='barre'&&nearPost&&nearBar){
-    outcome='post';puck.vz=-3.5;puck.vx=-Math.sign(x)*1.2;puck.vy=-1;sfx('bar');sfx('ding');ring('corner',x,y);scoreBar('corner',5,'LE COIN !');
+    outcome='post';puck.vz=-3.5;puck.vx=-Math.sign(x)*1.2;puck.vy=-1;sfx('bar');sfx('ding');ring('corner',x,y);scoreBar('corner',5,L('LE COIN !','THE CORNER!'));
   }else if(nearPost&&y<NH+tol){
     outcome='post';puck.vz=-4;puck.vx=-Math.sign(x)*1.8;puck.vy*=0.5;sfx('ding');ring('post',x,y);
-    if(mode==='barre')scoreBar('post',1,'POTEAU !');else call('POTEAU !','post');
+    if(mode==='barre')scoreBar('post',1,L('POTEAU !','POST!'));else call(L('POTEAU !','POST!'),'post');
   }else if(nearBar&&Math.abs(x)<HALF+tol){
     outcome='post';puck.vz=-3.5;puck.vy=-Math.abs(puck.vy)*0.4-1;sfx('bar');ring('bar',x,y);
-    if(mode==='barre')scoreBar('bar',3,'BARRE !');else call('BARRE !','post');
+    if(mode==='barre')scoreBar('bar',3,L('BARRE !','CROSSBAR!'));else call(L('BARRE !','CROSSBAR!'),'post');
   }else if(Math.abs(x)<HALF&&y<NH){
     intoNet();sfx('net');
-    if(!hasGoalie()){outcome='net';call('DANS LE FILET','',mode==='barre'?'0 point':mode==='bouteilles'?'Vise au-dessus de la barre':'');}
+    if(!hasGoalie()){outcome='net';call(L('DANS LE FILET','IN THE NET'),'',mode==='barre'?L('0 point','0 points'):mode==='bouteilles'?L('Vise au-dessus de la barre','Aim above the crossbar'):'');}
     else if(mode==='tour'){
-      outcome='goal';const from=TOUR[tour.idx].label;tour.idx++;tour.pending=true;hud();setTimeout(()=>sfx('goal'),120);
-      if(tour.idx>=TOUR.length){gameOver=true;call('LE TOUR EST FAIT !','good',`${shots} lancers`);setTimeout(()=>sfx('horn'),250);}
-      else call('BUT !','good',`${from} réussi · prochaine : ${TOUR[tour.idx].label}`);
+      outcome='goal';const from=tl(TOUR[tour.idx]);tour.idx++;tour.pending=true;hud();setTimeout(()=>sfx('goal'),120);
+      if(tour.idx>=TOUR.length){gameOver=true;call(L('LE TOUR EST FAIT !','WORLD TOUR DONE!'),'good',`${shots} `+L('lancers','shots'));setTimeout(()=>sfx('horn'),250);}
+      else call(L('BUT !','GOAL!'),'good',L(`${from} réussi · prochaine : `,`${from} done · next: `)+tl(TOUR[tour.idx]));
     }
-    else{outcome='goal';goals++;hud();const z=GK.plan&&GK.plan.zone;call('BUT !','good',z?`${z.label} · ${Math.round(z.p*100)} % de chances`:'');setTimeout(()=>sfx('goal'),120);}
+    else{outcome='goal';goals++;hud();const z=GK.plan&&GK.plan.zone;call(L('BUT !','GOAL!'),'good',z?`${z.label} · `+L(`${Math.round(z.p*100)} % de chances`,`${Math.round(z.p*100)}% chance`):'');setTimeout(()=>sfx('goal'),120);}
   }else{
-    outcome='miss';call(y>=NH&&Math.abs(x)<HALF+0.4?'PAR-DESSUS':'À CÔTÉ');
+    outcome='miss';call(y>=NH&&Math.abs(x)<HALF+0.4?L('PAR-DESSUS','OVER THE NET'):L('À CÔTÉ','WIDE'));
   }
   endCheck();
 }
@@ -662,7 +694,7 @@ function update(dt){
     if(chrono.running&&!chrono.timeUp&&state!=='done'&&state!=='intro'){
       const b=Math.ceil(chrono.left);chrono.left=Math.max(0,chrono.left-dt);const a=Math.ceil(chrono.left);
       if(a!==b){hud();if(a<=5&&a>0)sfx('tick');}
-      if(chrono.left<=0){chrono.timeUp=true;sfx('horn');call('TEMPS !','post',`${chrono.count} ${chrono.count>1?'cibles':'cible'}`);
+      if(chrono.left<=0){chrono.timeUp=true;sfx('horn');call(L('TEMPS !','TIME!'),'post',`${chrono.count} `+(chrono.count>1?L('cibles','targets'):L('cible','target')));
         if(state==='ready'){state='done';setTimeout(showEnd,1100);}else gameOver=true;}
     }
     if(chrono.next>0){chrono.next-=dt;if(chrono.next<=0&&!chrono.timeUp)spawnTarget();}
@@ -930,7 +962,7 @@ function drawGauge(){
   else if(mode==='chrono'&&chrono.cur){const c=chrono.cur.y,a=Y(c+HIT_R),b=Y(Math.max(0,c-HIT_R));ctx.fillStyle='rgba(255,182,39,.45)';ctx.fillRect(gx-3,a,6,b-a);}
   ctx.strokeStyle='rgba(255,255,255,.85)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(gx-7,Y(NH));ctx.lineTo(gx+7,Y(NH));ctx.stroke();
   ctx.font='600 11px "Barlow Condensed","Arial Narrow",sans-serif';ctx.textAlign='center';ctx.fillStyle='rgba(238,241,247,.8)';
-  ctx.fillText('VIF',gx,y1-9);ctx.fillText('LENT',gx,y0+15);
+  ctx.fillText(L('VIF','FAST'),gx,y1-9);ctx.fillText(L('LENT','SLOW'),gx,y0+15);
   const mark=(h,fill)=>{const y=Y(Math.min(GTOP,h));ctx.beginPath();ctx.moveTo(gx+6,y);ctx.lineTo(gx+15,y-6);ctx.lineTo(gx+15,y+6);ctx.closePath();
     if(fill){ctx.fillStyle='#ffb627';ctx.fill();}else{ctx.strokeStyle='#ffb627';ctx.lineWidth=1.5;ctx.stroke();}};
   if(down&&swipe.length>1)mark(heightFromV(speedOf(swipe)),false);
@@ -970,7 +1002,7 @@ function render(now){
   if(state!=='intro')drawGauge();
   if(down)drawSwipe(swipe,1);else if(fadeT>0)drawSwipe(fadeSwipe,fadeT/0.45);
   if(state==='ready'&&firstShot){const py=P(ORG.x,0,ORG.z)[1];ctx.font='600 17px "Barlow Condensed","Arial Narrow",sans-serif';ctx.textAlign='center';
-    ctx.fillStyle='rgba(20,30,50,.75)';ctx.fillText(mode==='cibles'?'↑  Glisse vers une cible  ↑':mode==='chrono'?'↑  Le chrono part au premier lancer  ↑':mode==='barre'?'↑  Vise la barre, fais ding  ↑':mode==='bouteilles'?'↑  Fais tomber les bouteilles dans l\'ordre  ↑':mode==='tour'?'↑  Marque de chaque position  ↑':'↑  Déjoue le gardien  ↑',cx,Math.min(H-24,py+56));}
+    ctx.fillStyle='rgba(20,30,50,.75)';ctx.fillText('↑  '+(mode==='cibles'?L('Glisse vers une cible','Swipe toward a target'):mode==='chrono'?L('Le chrono part au premier lancer','The clock starts on your first shot'):mode==='barre'?L('Vise la barre, fais ding','Aim for the crossbar, make it ding'):mode==='bouteilles'?L('Fais tomber les bouteilles dans l\'ordre','Knock the bottles down in order'):mode==='tour'?L('Marque de chaque position','Score from every spot'):L('Déjoue le gardien','Beat the goalie'))+'  ↑',cx,Math.min(H-24,py+56));}
 }
 
 let last=performance.now();
@@ -978,56 +1010,57 @@ function loop(now){const dt=Math.min(0.05,(now-last)/1000);last=now;update(dt);r
 
 function showEnd(){
   let isNew=false;const key=MODES[mode].key;
+  const pl=(n,fr1,frN,en1,enN)=>n+' '+(n>1?L(frN,enN):L(fr1,en1));
   if(mode==='cibles'){
     if(bests.cibles==null||shots<bests.cibles){bests.cibles=shots;isNew=true;try{localStorage.setItem(key,String(shots));}catch(e){}}
-    $('endEyebrow').textContent='Les 4 cibles en';
-    $('endShots').textContent=shots+(shots>1?' lancers':' lancer');
-    $('endMsg').textContent=shots<=4?'Parfait. Quatre lancers, quatre cibles.':shots<=6?'Très solide. Digne du match des étoiles.':shots<=9?'Pas mal du tout. Le geste commence à rentrer.':'Continue à pratiquer : le dosage de la vitesse fait toute la différence.';
+    $('endEyebrow').textContent=L('Les 4 cibles en','All 4 targets in');
+    $('endShots').textContent=pl(shots,'lancer','lancers','shot','shots');
+    $('endMsg').textContent=shots<=4?L('Parfait. Quatre lancers, quatre cibles.','Perfect. Four shots, four targets.'):shots<=6?L('Très solide. Digne du match des étoiles.','Very solid. All-Star worthy.'):shots<=9?L('Pas mal du tout. Le geste commence à rentrer.','Not bad at all. The motion is coming.'):L('Continue à pratiquer : le dosage de la vitesse fait toute la différence.','Keep practising: controlling the speed makes all the difference.');
   }else if(mode==='tour'){
     if(bests.tour==null||shots<bests.tour){bests.tour=shots;isNew=true;try{localStorage.setItem(key,String(shots));}catch(e){}}
-    $('endEyebrow').textContent='Tour du monde · 5 positions en';
-    $('endShots').textContent=shots+(shots>1?' lancers':' lancer');
-    $('endMsg').textContent=shots<=5?'Parfait. Un but de chaque position, sans rater.':shots<=8?'Très solide. Le #35 n\'a rien vu.':shots<=12?'Pas mal. Les ailes sont les plus dures : vise le coin haut côté loin.':'Le gardien t\'a fait travailler. Des ailes, vise haut.';
+    $('endEyebrow').textContent=L('Tour du monde · 5 positions en','Around the World · 5 spots in');
+    $('endShots').textContent=pl(shots,'lancer','lancers','shot','shots');
+    $('endMsg').textContent=shots<=5?L('Parfait. Un but de chaque position, sans rater.','Perfect. One goal from every spot, no misses.'):shots<=8?L('Très solide. Le #35 n\'a rien vu.','Very solid. #35 never saw it coming.'):shots<=12?L('Pas mal. Les ailes sont les plus dures : vise le coin haut côté loin.','Not bad. The wings are the hardest: aim far side, top corner.'):L('Le gardien t\'a fait travailler. Des ailes, vise haut.','The goalie made you work. From the wings, aim high.');
   }else if(mode==='bouteilles'){
     const n=btl.pts;
     if(bests.bouteilles==null||n>bests.bouteilles){bests.bouteilles=n;isNew=true;try{localStorage.setItem(key,String(n));}catch(e){}}
-    $('endEyebrow').textContent='Bouteilles · 10 lancers';
-    $('endShots').textContent=n+(n>1?' points':' point');
-    $('endMsg').textContent=`${btl.knocked}/5 bouteilles, ${btl.inOrder} dans l'ordre. `+(n>=20?'Parfait, dans l\'ordre du premier coup.':n>=12?'Belle précision.':n>=6?'Pas pire. Respecte l\'ordre des numéros pour doubler tes points.':'Les bouteilles ont survécu. Vise juste au-dessus de la barre.');
+    $('endEyebrow').textContent=L('Bouteilles · 10 lancers','Bottles · 10 shots');
+    $('endShots').textContent=pl(n,'point','points','point','points');
+    $('endMsg').textContent=L(`${btl.knocked}/5 bouteilles, ${btl.inOrder} dans l'ordre. `,`${btl.knocked}/5 bottles, ${btl.inOrder} in order. `)+(n>=20?L('Parfait, dans l\'ordre du premier coup.','Perfect, in order on the first try.'):n>=12?L('Belle précision.','Nice accuracy.'):n>=6?L('Pas pire. Respecte l\'ordre des numéros pour tripler tes points.','Not bad. Follow the number order to triple your points.'):L('Les bouteilles ont survécu. Vise juste au-dessus de la barre.','The bottles survived. Aim just above the crossbar.'));
   }else if(mode==='barre'){
     const n=barre.pts;
     if(bests.barre==null||n>bests.barre){bests.barre=n;isNew=true;try{localStorage.setItem(key,String(n));}catch(e){}}
-    $('endEyebrow').textContent='Défi de la barre · 10 lancers';
-    $('endShots').textContent=n+(n>1?' points':' point');
-    $('endMsg').textContent=`Barre ×${barre.bar} · Poteau ×${barre.post} · Coin ×${barre.corner}. `+(n>=15?'Le roi du ding.':n>=9?'Belle oreille pour la barre.':n>=4?'Quelques beaux dings.':'La barre est restée muette. Vise juste sous le haut de la jauge.');
+    $('endEyebrow').textContent=L('Défi de la barre · 10 lancers','Crossbar Challenge · 10 shots');
+    $('endShots').textContent=pl(n,'point','points','point','points');
+    $('endMsg').textContent=L(`Barre ×${barre.bar} · Poteau ×${barre.post} · Coin ×${barre.corner}. `,`Crossbar ×${barre.bar} · Post ×${barre.post} · Corner ×${barre.corner}. `)+(n>=15?L('Le roi du ding.','King of the ding.'):n>=9?L('Belle oreille pour la barre.','Great ear for the crossbar.'):n>=4?L('Quelques beaux dings.','A few nice dings.'):L('La barre est restée muette. Vise juste sous le haut de la jauge.','The crossbar stayed silent. Aim just under the top of the gauge.'));
   }else if(mode==='chrono'){
     const n=chrono.count,acc=shots?Math.round(n/shots*100):0;
     if(bests.chrono==null||n>bests.chrono){bests.chrono=n;isNew=true;try{localStorage.setItem(key,String(n));}catch(e){}}
-    $('endEyebrow').textContent='Défi chrono · 60 secondes';
-    $('endShots').textContent=n+(n>1?' cibles':' cible');
-    $('endMsg').textContent=`${shots} ${shots>1?'lancers':'lancer'}, ${acc} % de précision. `+(n>=15?'Une vraie machine.':n>=10?'Excellent rythme.':n>=6?'Bon départ, accélère le geste.':'Prends ton temps pour viser, la vitesse viendra.');
+    $('endEyebrow').textContent=L('Défi chrono · 60 secondes','Time Attack · 60 seconds');
+    $('endShots').textContent=pl(n,'cible','cibles','target','targets');
+    $('endMsg').textContent=L(`${pl(shots,'lancer','lancers','shot','shots')}, ${acc} % de précision. `,`${pl(shots,'lancer','lancers','shot','shots')}, ${acc}% accuracy. `)+(n>=15?L('Une vraie machine.','A real machine.'):n>=10?L('Excellent rythme.','Excellent pace.'):n>=6?L('Bon départ, accélère le geste.','Good start, speed up your motion.'):L('Prends ton temps pour viser, la vitesse viendra.','Take your time to aim, speed will come.'));
   }else{
     if(bests.duel==null||goals>bests.duel){bests.duel=goals;isNew=true;try{localStorage.setItem(key,String(goals));}catch(e){}}
-    $('endEyebrow').textContent='Contre Félix Gagnon · 10 lancers';
-    $('endShots').textContent=goals+(goals>1?' buts':' but');
-    $('endMsg').textContent=goals>=7?'Tu l\'as complètement dominé. Il va revoir la vidéo toute la nuit.':goals>=5?'Belle soirée de travail. Le #35 a eu chaud.':goals>=3?'Le #35 a eu le dessus, de justesse.':'Félix Gagnon t\'a volé. Prends ta revanche.';
+    $('endEyebrow').textContent=L('Contre Félix Gagnon · 10 lancers','Against Félix Gagnon · 10 shots');
+    $('endShots').textContent=pl(goals,'but','buts','goal','goals');
+    $('endMsg').textContent=goals>=7?L('Tu l\'as complètement dominé. Il va revoir la vidéo toute la nuit.','You owned him. He\'ll be watching the tape all night.'):goals>=5?L('Belle soirée de travail. Le #35 a eu chaud.','Great night\'s work. #35 was sweating.'):goals>=3?L('Le #35 a eu le dessus, de justesse.','#35 got the better of you, barely.'):L('Félix Gagnon t\'a volé. Prends ta revanche.','Félix Gagnon robbed you. Get your revenge.');
   }
-  const r=$('endRec');r.textContent=isNew?'Nouveau record':'Record : '+bests[mode];r.classList.toggle('new',isNew);
+  const r=$('endRec');r.textContent=isNew?L('Nouveau record','New record'):L('Record : ','Best: ')+bests[mode];r.classList.toggle('new',isNew);
   const ag=$('again'),sw=$('switch');
   if(superRun){
     const pts=superPts(mode);superRun.pts.push({m:mode,pts});const total=superTotal();
     if(superRun.pts.length<SUPER.length){
-      r.textContent=`+${pts} au super défi · total ${total}`;r.classList.add('new');
-      ag.textContent=`Suivant : ${LBL[SUPER[superRun.pts.length]]}`;sw.textContent='Abandonner le super défi';
+      r.textContent=L(`+${pts} au super défi · total ${total}`,`+${pts} to the super challenge · total ${total}`);r.classList.add('new');
+      ag.textContent=L('Suivant : ','Next: ')+lbl(SUPER[superRun.pts.length]);sw.textContent=L('Abandonner le super défi','Quit the super challenge');
     }else{
       let isNewS=false;if(bests.super==null||total>bests.super){bests.super=total;isNewS=true;try{localStorage.setItem('tirprecision.best.super',String(total));}catch(e){}}
-      $('endEyebrow').textContent='Super défi · grand total';
+      $('endEyebrow').textContent=L('Super défi · grand total','Super Challenge · grand total');
       $('endShots').textContent=total+' points';
-      $('endMsg').innerHTML=superRun.pts.map(x=>`<span class="sl"><b>${LBL[x.m]}</b><i>${x.pts}</i></span>`).join('');
-      r.textContent=isNewS?'Nouveau record du super défi':`Record : ${bests.super}`;r.classList.toggle('new',isNewS);
-      ag.textContent='Recommencer le super défi';sw.textContent='Menu';superRun.done=true;
+      $('endMsg').innerHTML=superRun.pts.map(x=>`<span class="sl"><b>${lbl(x.m)}</b><i>${x.pts}</i></span>`).join('');
+      r.textContent=isNewS?L('Nouveau record du super défi','New super challenge record'):L('Record : ','Best: ')+bests.super;r.classList.toggle('new',isNewS);
+      ag.textContent=L('Recommencer le super défi','Restart the super challenge');sw.textContent=L('Menu','Menu');superRun.done=true;
     }
-  }else{ag.textContent='Rejouer';sw.textContent='Changer de mode';}
+  }else{ag.textContent=L('Rejouer','Play again');sw.textContent=L('Changer de mode','Change mode');}
   hud();$('end').hidden=false;
 }
 
@@ -1037,8 +1070,10 @@ $('again').addEventListener('click',()=>{initAudio();$('end').hidden=true;
   if(superRun){if(superRun.done)superRun={pts:[]};startSuperStage();}else newGame();});
 $('switch').addEventListener('click',()=>{superRun=null;$('end').hidden=true;$('intro').hidden=false;$('plate').hidden=true;$('stag').hidden=true;state='intro';});
 addEventListener('resize',layout);
+$('langBtn').addEventListener('click',()=>{lang=lang==='en'?'fr':'en';try{localStorage.setItem('tirprecision.lang',lang);}catch(e){}applyLang();setLabels();hud();});
 
 function start(data){
+  applyLang();setLabels();
   layout();buildDots();$('goals').hidden=true;hud();
   if(data&&data.started&&MODES[data.mode]){
     $('intro').hidden=true;newGame(data.mode);
